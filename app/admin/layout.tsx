@@ -22,6 +22,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
+  const { data: profile } = await supabase
+    .from('profiles').select('is_admin').eq('id', user.id).single()
+  if (!profile?.is_admin) redirect('/')
+
   return (
     <div className="min-h-screen flex">
       <aside className="w-56 bg-gray-900 text-white flex flex-col">

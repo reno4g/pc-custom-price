@@ -1,8 +1,10 @@
 'use server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAdmin } from '@/lib/require-admin'
 import { revalidatePath } from 'next/cache'
 
 export async function createPart(formData: FormData) {
+  await requireAdmin()
   const supabase = createAdminClient()
   await supabase.from('parts').insert({
     category_id: formData.get('category_id') as string,
@@ -15,6 +17,7 @@ export async function createPart(formData: FormData) {
 }
 
 export async function updatePart(id: string, formData: FormData) {
+  await requireAdmin()
   const supabase = createAdminClient()
   await supabase.from('parts').update({
     category_id: formData.get('category_id') as string,
@@ -27,6 +30,7 @@ export async function updatePart(id: string, formData: FormData) {
 }
 
 export async function deletePart(id: string) {
+  await requireAdmin()
   const supabase = createAdminClient()
   await supabase.from('parts').delete().eq('id', id)
   revalidatePath('/admin/parts')
