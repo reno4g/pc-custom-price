@@ -4,8 +4,9 @@ import { notFound } from 'next/navigation'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import PDFDownloadButton from '@/components/PDFDownloadButton'
 import PrintButton from '@/components/PrintButton'
+// Note: PDFDownloadButton requires dynamic import due to @react-pdf/renderer
+// import PDFDownloadButton from '@/components/PDFDownloadButton'
 
 export default async function ConfigDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -30,7 +31,7 @@ export default async function ConfigDetailPage({ params }: { params: Promise<{ i
         <h1 className="text-2xl font-bold">{config.name}</h1>
         <div className="flex gap-2">
           <Link href="/configurations" className={cn(buttonVariants({ variant: 'outline' }))}>一覧に戻る</Link>
-          <PDFDownloadButton config={config} lineItems={lineItems} total={total} />
+          {/* <PDFDownloadButton config={config} lineItems={lineItems} total={total} /> */}
           <PrintButton />
           <form action={handleDelete}>
             <Button variant="destructive" type="submit">削除</Button>

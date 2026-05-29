@@ -11,10 +11,10 @@ export type PriceLineItem = {
   subtotal: number
 }
 
-export function computeTotal(
+export async function computeTotal(
   items: ConfigItem[],
   prices: Array<{ part_id: string; price: number }>
-): number {
+): Promise<number> {
   return items.reduce((total, item) => {
     const price = prices.find(p => p.part_id === item.part_id)
     return total + (price?.price ?? 0) * item.quantity
