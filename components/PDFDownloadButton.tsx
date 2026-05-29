@@ -1,35 +1,20 @@
 'use client'
-import dynamic from 'next/dynamic'
-import { Button } from '@/components/ui/button'
-import type { PriceLineItem } from '@/actions/price'
-import type { ConfigurationWithItems } from '@/types/database'
-
-const PDFDownloadLink = dynamic(
-  () => import('@react-pdf/renderer').then(mod => mod.PDFDownloadLink),
-  { ssr: false }
-)
-const ConfigPDF = dynamic(
-  () => import('./ConfigPDF').then(mod => mod.ConfigPDF),
-  { ssr: false }
-)
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
 
 type Props = {
-  config: ConfigurationWithItems
-  lineItems: PriceLineItem[]
-  total: number
+  configId: string
+  configName: string
 }
 
-export default function PDFDownloadButton({ config, lineItems, total }: Props) {
+export default function PDFDownloadButton({ configId, configName }: Props) {
   return (
-    <PDFDownloadLink
-      document={<ConfigPDF configName={config.name} lineItems={lineItems} total={total} />}
-      fileName={`${config.name}.pdf`}
+    <a
+      href={`/api/pdf/${configId}`}
+      download={`${configName}.pdf`}
+      className={cn(buttonVariants({ variant: 'outline' }))}
     >
-      {({ loading }: { loading: boolean }) => (
-        <Button variant="outline" disabled={loading}>
-          {loading ? '生成中...' : 'PDFで出力'}
-        </Button>
-      )}
-    </PDFDownloadLink>
+      PDFで出力
+    </a>
   )
 }

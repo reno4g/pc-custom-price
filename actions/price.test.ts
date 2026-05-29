@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { computeTotal } from './price'
+import { computeTotal } from '@/lib/price-utils'
 
 describe('computeTotal', () => {
   it('returns 0 for empty items', () => {

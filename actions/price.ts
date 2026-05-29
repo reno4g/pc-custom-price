@@ -1,5 +1,6 @@
 'use server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { computeTotal } from '@/lib/price-utils'
 
 export type ConfigItem = { part_id: string; quantity: number }
 
@@ -9,16 +10,6 @@ export type PriceLineItem = {
   quantity: number
   unit_price: number
   subtotal: number
-}
-
-export async function computeTotal(
-  items: ConfigItem[],
-  prices: Array<{ part_id: string; price: number }>
-): Promise<number> {
-  return items.reduce((total, item) => {
-    const price = prices.find(p => p.part_id === item.part_id)
-    return total + (price?.price ?? 0) * item.quantity
-  }, 0)
 }
 
 async function getTierPrices(partIds: string[]) {
