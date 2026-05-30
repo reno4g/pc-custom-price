@@ -17,4 +17,7 @@ describe('resolveRedirect', () => {
   it('allows authenticated user on /', () => {
     expect(resolveRedirect('/', true, false)).toBeNull()
   })
+  it('allows unauthenticated user on /auth/callback', () => {
+    expect(resolveRedirect('/auth/callback', false, false)).toBeNull()
+  })
 })

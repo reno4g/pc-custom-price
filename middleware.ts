@@ -6,7 +6,7 @@ export function resolveRedirect(
   hasSession: boolean,
   isAdmin: boolean
 ): 'login' | 'home' | null {
-  if (!hasSession && pathname !== '/login') return 'login'
+  if (!hasSession && pathname !== '/login' && !pathname.startsWith('/auth/')) return 'login'
   if (pathname.startsWith('/admin') && hasSession && !isAdmin) return 'home'
   return null
 }
